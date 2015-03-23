@@ -32,9 +32,15 @@ func TestWhenTriggeredTwoEventsShouldPassCorrectEventToCallback(t *testing.T) {
 		}
 	})
 
+	Listen(secondEventName, func(event Event) {
+		if event.Name() != secondEventName {
+			t.Error("event name doesnt match")
+		}
+	})
+
 	anEvent := Event{name: eventName}
 	aSecondEvent := Event{name: secondEventName}
 	listener := Listener()
-	listener <- anEvent
 	listener <- aSecondEvent
+	listener <- anEvent
 }
